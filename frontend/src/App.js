@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { triggerProcess } from "./api";
+import { processVideo } from "./api";
 import "./App.css";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       .split("\n")
       .map((u) => u.trim())
       .filter(Boolean);
-    const res = await triggerProcess(videoUrls);
+    const res = await processVideo(videoUrls);
     setResults(res.result || []);
     setLoading(false);
   };
@@ -75,3 +75,4 @@ function App() {
 }
 
 export default App;
+
