@@ -1,5 +1,6 @@
 exports.verifySecret = (s) => s === process.env.BACKEND_SECRET;
 
+
 exports.ytIdFromUrl = (url) => {
   try {
     const u = new URL(url);
@@ -10,3 +11,4 @@ exports.ytIdFromUrl = (url) => {
     return null;
   }
 };
+
