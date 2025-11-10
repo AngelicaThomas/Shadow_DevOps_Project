@@ -10,7 +10,7 @@ const SHEET_ID = process.env.GOOGLE_SHEETS_ID;
 
 async function writeResultsToSheet(results) {
   try {
-    // 1️⃣ Ambil semua URL dari kolom B
+    //  Ambil semua URL dari kolom B
     const existingUrlsRes = await sheets.spreadsheets.values.get({
       spreadsheetId: SHEET_ID,
       range: "VideoData!B2:B"
@@ -35,7 +35,7 @@ async function writeResultsToSheet(results) {
       ]];
 
       if (existingIndex !== -1) {
-        // 🔹 Update baris yang sudah ada
+        //  Update baris yang sudah ada
         const rowNumber = existingIndex + 2; // +2 karena header di baris 1
         await sheets.spreadsheets.values.update({
           spreadsheetId: SHEET_ID,
@@ -43,9 +43,9 @@ async function writeResultsToSheet(results) {
           valueInputOption: "USER_ENTERED", // agar formula dievaluasi
           requestBody: { values }
         });
-        console.log(`♻️ Data diperbarui untuk URL: ${r.url}`);
+        console.log(` Data diperbarui untuk URL: ${r.url}`);
       } else {
-        // 🔹 Tambahkan baris baru
+        //  Tambahkan baris baru
         await sheets.spreadsheets.values.append({
           spreadsheetId: SHEET_ID,
           range: "VideoData!A:H",
@@ -53,15 +53,16 @@ async function writeResultsToSheet(results) {
           insertDataOption: "INSERT_ROWS",
           requestBody: { values }
         });
-        console.log(`✅ Data baru ditambahkan untuk URL: ${r.url}`);
+        console.log(` Data baru ditambahkan untuk URL: ${r.url}`);
         existingUrls.push(normalizedUrl);
       }
     }
 
-    console.log("🎯 Proses update/insert selesai!");
+    console.log(" Proses update/insert selesai!");
   } catch (err) {
-    console.error("❌ Gagal menulis ke Sheet:", err.message);
+    console.error(" Gagal menulis ke Sheet:", err.message);
   }
 }
 
 module.exports = { writeResultsToSheet };
+
