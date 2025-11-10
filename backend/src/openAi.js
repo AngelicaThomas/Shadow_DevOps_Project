@@ -5,6 +5,7 @@ async function getSummariesForVideoBatch(videos) {
   const MODEL = process.env.OPENAI_MODEL;
   const results = [];
 
+  
   for (const v of videos) {
     const prompt = `
 Analisis video YouTube berikut:
