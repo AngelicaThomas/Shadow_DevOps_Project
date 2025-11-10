@@ -13,4 +13,6 @@ async function fetchTopComments(videoId, apiKey) {
   return res.data.items.map(i => i.snippet.topLevelComment.snippet.textDisplay);
 }
 
+
 module.exports = { fetchVideoDetails, fetchTopComments };
+
