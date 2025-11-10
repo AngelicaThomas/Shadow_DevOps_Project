@@ -29,6 +29,11 @@ jobs:
       - name: Build backend Docker image
         working-directory: ./backend
         run: |
+          echo "=== DEBUG: Username is -> ${{ secrets.DOCKERHUB_USERNAME }} ==="
+          if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
+            echo "❌ ERROR: DOCKERHUB_USERNAME secret kosong atau tidak terbaca!"
+            exit 1
+          fi
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/youtube-backend:latest .
 
       # Build Frontend
