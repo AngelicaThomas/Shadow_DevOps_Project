@@ -1,23 +1,17 @@
-# Tahap 1: build React app
+# Tahap 1: Build React app
 FROM node:18-alpine AS build
-
 WORKDIR /app
+
+# Copy package.json dan install semua dependensi (termasuk dev)
 COPY package*.json ./
 RUN npm install
+
+# Copy semua source dan build
 COPY . .
 RUN npm run build
 
-# Tahap 2: serve hasil build menggunakan Nginx
+# Tahap 2: Jalankan hasil build dengan Nginx
 FROM nginx:stable-alpine
-
-# Salin hasil build dari tahap sebelumnya
 COPY --from=build /app/build /usr/share/nginx/html
-
-# Copy konfigurasi default nginx (opsional)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Buka port 80
 EXPOSE 80
-
-# Jalankan nginx
 CMD ["nginx", "-g", "daemon off;"]
