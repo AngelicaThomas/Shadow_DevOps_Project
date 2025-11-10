@@ -2,44 +2,37 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [ main, master ]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repository
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Setup Node.js untuk build frontend dan backend
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+      - name: Debug secrets
+        run: |
+          echo "DockerHub user: ${{ secrets.DOCKERHUB_USERNAME }}"
+          echo "Check Google JSON secret exists: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON != '' }}"
 
-      # Build Backend
-      - name: Install backend dependencies
-        working-directory: ./backend
-        run: npm install
+      # Buat file service-account.json dari secret
+      - name: Create service-account.json
+        run: |
+          mkdir -p backend
+          echo '${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}' > backend/service-account.json
+          echo "✅ Created service-account.json"
 
+      # Build Backend Docker image
       - name: Build backend Docker image
-        working-directory: ./backend
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/youtube-backend:latest .
+          docker build -f backend/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/youtube-backend:latest backend
 
-      # Build Frontend
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: npm install
-
+      # Build Frontend Docker image
       - name: Build frontend Docker image
-        working-directory: ./frontend
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/youtube-frontend:latest .
+          docker build -f frontend/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/youtube-frontend:latest frontend
 
       # Login ke Docker Hub
       - name: Login to Docker Hub
@@ -48,10 +41,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      #  Push images ke Docker Hub
-      - name: Push Docker images
+      # Push image
+      - name: Push images
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/youtube-backend:latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/youtube-frontend:latest
-
-      
