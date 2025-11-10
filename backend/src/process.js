@@ -88,6 +88,3 @@ async function processVideos(videoUrls) {
 }
 
 module.exports = { processVideos };
-
-
-
