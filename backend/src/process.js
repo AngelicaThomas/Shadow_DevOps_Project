@@ -76,7 +76,7 @@ async function processVideos(videoUrls) {
         comments: ytData.comments
       });
     } catch (err) {
-      console.error("❌ Error processing:", url, err.message);
+      console.error(" Error processing:", url, err.message);
     }
   }
 
@@ -88,5 +88,6 @@ async function processVideos(videoUrls) {
 }
 
 module.exports = { processVideos };
+
 
 
