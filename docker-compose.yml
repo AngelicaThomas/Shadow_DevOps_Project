@@ -12,7 +12,6 @@ services:
     env_file:
       - ./backend/.env
     volumes:
-      # Pastikan file service account ikut dimount agar bisa tulis ke Google Sheets
       - ./backend/service-account.json:/app/service-account.json
     networks:
       - app-network
@@ -33,3 +32,4 @@ services:
 networks:
   app-network:
     driver: bridge
+
