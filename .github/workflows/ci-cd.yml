@@ -22,7 +22,7 @@ jobs:
         run: |
           mkdir -p backend
           echo '${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}' > backend/service-account.json
-          echo "✅ Created service-account.json"
+          echo " Created service-account.json"
 
       # Build Backend Docker image
       - name: Build backend Docker image
