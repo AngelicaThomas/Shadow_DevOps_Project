@@ -23,10 +23,10 @@ function App() {
     <div>
       {/* === NAVBAR === */}
       <nav className="navbar">
-        <h2 className="navbar-title">🎬 YouTube Analyzer</h2>
+        <h2 className="navbar-title">🎬 Shadow YouTube Analyzer</h2>
       </nav>
       <div className="container">
-        <h1>🎥 YouTube Analyzer – Kelompok 11</h1>
+        <h1>🎥 YouTube Analyzer</h1>
         <form onSubmit={handleSubmit}>
           <textarea
             rows="6"
